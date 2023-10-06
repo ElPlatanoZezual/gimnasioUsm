@@ -1,0 +1,40 @@
+CREATE schema heinsenBurger;
+
+USE heinsenBurger;
+
+CREATE TABLE cliente(
+    id_cli int(8) not null PRIMARY KEY AUTO_INCREMENT,
+    username varchar(20) not null,
+    nom_cli varchar(20) not null,
+    ape_cli varchar(25) not null,
+    email_cli varchar(50) not null,
+    password varchar(255) not null,
+    adminQ int(1) not null
+);
+
+CREATE TABLE venta(
+    id_ven int(8) not null PRIMARY KEY AUTO_INCREMENT,
+    id_cli int(8) not null,
+    fecha_ven date not null,
+    total_ven int(5) not null,
+    FOREIGN KEY (id_cli) REFERENCES cliente(id_cli)
+);
+
+CREATE table producto(
+    id_prod int(8) not null PRIMARY KEY AUTO_INCREMENT,
+    nom_prod varchar(30) not null,
+    defi_prod varchar(255) not null,
+    valor_prod varchar(4) not null
+);
+
+CREATE TABLE detalle_ven(
+    id_ven int(8) not null,
+    id_prod int(8) not null,
+    cantidad tinyint(2) not null,
+    valor_com int(5) not null,
+    subtotal_det int(5) not null,
+    PRIMARY KEY (id_ven, id_prod),
+    FOREIGN KEY (id_ven) REFERENCES venta(id_ven)
+);
+
+ALTER TABLE detalle_ven ADD FOREIGN KEY (id_prod) REFERENCES producto(id_prod);
