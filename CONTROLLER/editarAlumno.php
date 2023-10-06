@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Realiza una consulta SQL para obtener los valores actuales del alumno
     $sql_select = "SELECT rut, nombre, apellido, id_carrera FROM alumnos WHERE rut=?";
     if ($stmt_select = mysqli_prepare($link, $sql_select)) {
-        mysqli_stmt_bind_param($stmt_select, "i", $rut);
+        mysqli_stmt_bind_param($stmt_select, "s", $rut);
         if (mysqli_stmt_execute($stmt_select)) {
             mysqli_stmt_store_result($stmt_select);
             mysqli_stmt_bind_result($stmt_select, $rut_actual, $nombre_actual, $apellido_actual, $id_carrera_actual);
@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Si se encuentra un alumno con el rut especificado, actualiza los datos
                 $sql_update = "UPDATE alumnos SET nombre=?, apellido=?, id_carrera=? WHERE rut=?";
                 if ($stmt_update = mysqli_prepare($link, $sql_update)) {
-                    mysqli_stmt_bind_param($stmt_update, "ssii", $nombre, $apellido, $id_carrera, $rut);
+                    mysqli_stmt_bind_param($stmt_update, "ssis", $nombre, $apellido, $id_carrera, $rut);
                     if (mysqli_stmt_execute($stmt_update)) {
                         header("location: ../VIEW/alumnos.php");
                     } else {

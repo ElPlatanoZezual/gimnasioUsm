@@ -1,7 +1,7 @@
 <?php
 require_once "../MODEL/conectar.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $sql = "INSERT INTO alumnos (nombre, apellido, id_carrera) VALUES(?, ?, ?)";
+    $sql = "INSERT INTO alumnos (rut, nombre, apellido, id_carrera) VALUES(?, ?, ?, ?)";
     if ($stmt = mysqli_prepare($link, $sql)) {
         mysqli_stmt_bind_param($stmt, "sssi",$param_rut, $param_nombre, $param_apellido, $param_id_carrera);
         $param_rut = $_POST["rut"];

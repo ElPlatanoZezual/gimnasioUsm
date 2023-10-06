@@ -24,17 +24,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($rut_err)) {
         $sql = "SELECT rut FROM alumnos WHERE rut = ?";
         if ($stmt = mysqli_prepare($link, $sql)) {
-            mysqli_stmt_bind_param(
-                $stmt,
-                "s",
-                $param_rut
-            );
+            mysqli_stmt_bind_param($stmt,"s",$param_rut);
             $param_rut = $rut;
     
             if (mysqli_stmt_execute($stmt)) {
                 mysqli_stmt_store_result($stmt);
                 if (mysqli_stmt_num_rows($stmt) == 1) {
-                    // Aquí verificabas la contraseña, pero la hemos eliminado
                     session_start();
                     $_SESSION["loggedin"] = true;
                     $_SESSION["rut"] = $rut;

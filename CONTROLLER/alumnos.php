@@ -1,6 +1,6 @@
 <?php
 require_once "../MODEL/conectar.php";
-$sql = "SELECT rut,nombre,apellido,id_carrera FROM alumnos ";
+$sql = "SELECT rut,nombre,apellido,id_carrera,estado_cuenta FROM alumnos ";
 if ($stmt = mysqli_prepare($link, $sql)) {
     if (mysqli_stmt_execute($stmt)) {
         mysqli_stmt_store_result($stmt);
@@ -9,7 +9,8 @@ if ($stmt = mysqli_prepare($link, $sql)) {
             $rut,
             $nombre,
             $apellido,
-            $id_carrera
+            $id_carrera,
+            $estado_cuenta
         );
         while (mysqli_stmt_fetch($stmt)) {
                 echo " <tr>
@@ -17,7 +18,8 @@ if ($stmt = mysqli_prepare($link, $sql)) {
                 <th>".$nombre."</th>
                 <th>".$apellido."</th>
                 <th>".$id_carrera."</th>
-                <th><a class='btn btn-outline-light btn-md px-4' href='../CONTROLLER/editarAlumno.php?rut=".$rut."'>Editar alumno</a><a class='btn btn-outline-light btn-md px-4' href='../CONTROLLER/borrarAlumno.php?rut=".$rut."'>Eliminar alumno</a></th>
+                <th>".$estado_cuenta."</th>
+                <th><a class='btn btn-outline-light btn-md px-4' href='../CONTROLLER/borrarAlumno.php?rut=".$rut."'>Eliminar alumno</a></th>
              </tr>";
         }
     } else {

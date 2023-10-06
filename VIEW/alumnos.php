@@ -14,10 +14,9 @@ require_once('header.php');
             <th>Nombre</th>
             <th>Apellido</th>
             <th>ID Carrera</th>
+            <th>Estado</th>
+            <th>Eliminar alumno</th>
             <?php
-            if (isset($_SESSION["rut"]) && $_SESSION["rut"] == "20.655.826-1") {
-                echo "<th>Acciones</th>";
-            }
             ?>
         </tr>
         <?php include '../CONTROLLER/alumnos.php'; ?>
@@ -25,11 +24,10 @@ require_once('header.php');
     <?php
     if (isset($_SESSION["rut"]) && $_SESSION["rut"] == "20.655.826-1") {
         echo '<div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-center mt-5">
-        <a class="btn btn-primary btn-lg px-4 me-sm-3" href="../CONTROLLER/crearAlumno.php" >Añadir alumno</a>
+            <a class="btn btn-primary btn-lg px-4 me-sm-3" href="../CONTROLLER/crearAlumno.php">Añadir alumno</a>' .
+            '<a class="btn btn-primary btn-lg px-4 me-sm-3" href="../CONTROLLER/editarAlumno.php">Editar alumno</a>
         </div>';
-        echo '<a class="btn btn-outline-light btn-lg px-4" href="../CONTROLLER/editarAlumno.php"> Editar alumno</a>';
-        echo '<a class="btn btn-outline-light btn-lg px-4" href="../CONTROLLER/borrarAlumno.php"> Eliminar alumno</a>';
-    }
+    }    
     ?>
 </body>
 </html>

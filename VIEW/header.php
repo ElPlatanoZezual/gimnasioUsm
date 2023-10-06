@@ -25,7 +25,6 @@ session_start();
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0" method="post">
                     <li class="nav-item"><a class="nav-link" href="../VIEW/index.php">Inicio</a></li>
                     <li class="nav-item"><a class="nav-link" href="../VIEW/lugar.php">Donde estamos?</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../VIEW/nosotros.php">Sobre nosotros</a></li>
                     <?php
                     if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
                         echo '<li class="nav-item"><a class="nav-link" href="../CONTROLLER/logout.php">Cerrar Sesion</a></li>';
