@@ -1,34 +1,45 @@
 <?php
 require_once "../MODEL/conectar.php";
-$sql = "DELETE FROM alumnos WHERE rut=?";
-if ($stmt = mysqli_prepare($link, $sql)) {
-    mysqli_stmt_bind_param($stmt, "i", $param_rut);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
-}
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $sql = "INSERT INTO alumnos (nombre, apellido, id_carrera) VALUES(?, ?, ?, ?)";
-    if ($stmt = mysqli_prepare($link, $sql)) {
-        mysqli_stmt_bind_param($stmt, "sssi",$param_rut, $param_nombre, $param_apellido, $param_id_carrera);
-        $param_rut = $_POST["rut"];
-        $param_nombre = $_POST["nombre"];
-        $param_apellido = $_POST["apellido"];
-        $param_id_carrera = $_POST["id_carrera"];
 
-        if (mysqli_stmt_execute($stmt)) {
-            header("location: ../VIEW/alumnos.php");
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $rut = $_POST["rut"];
+    $nombre = $_POST["nombre"];
+    $apellido = $_POST["apellido"];
+    $id_carrera = $_POST["id_carrera"];
+
+    // Realiza una consulta SQL para obtener los valores actuales del alumno
+    $sql_select = "SELECT rut, nombre, apellido, id_carrera FROM alumnos WHERE rut=?";
+    if ($stmt_select = mysqli_prepare($link, $sql_select)) {
+        mysqli_stmt_bind_param($stmt_select, "i", $rut);
+        if (mysqli_stmt_execute($stmt_select)) {
+            mysqli_stmt_store_result($stmt_select);
+            mysqli_stmt_bind_result($stmt_select, $rut_actual, $nombre_actual, $apellido_actual, $id_carrera_actual);
+            if (mysqli_stmt_fetch($stmt_select)) {
+                // Si se encuentra un alumno con el rut especificado, actualiza los datos
+                $sql_update = "UPDATE alumnos SET nombre=?, apellido=?, id_carrera=? WHERE rut=?";
+                if ($stmt_update = mysqli_prepare($link, $sql_update)) {
+                    mysqli_stmt_bind_param($stmt_update, "ssii", $nombre, $apellido, $id_carrera, $rut);
+                    if (mysqli_stmt_execute($stmt_update)) {
+                        header("location: ../VIEW/alumnos.php");
+                    } else {
+                        echo "Oops! Something went wrong with the update. Please try again later.";
+                    }
+                    mysqli_stmt_close($stmt_update);
+                }
+            } else {
+                echo "No se encontró ningún alumno con el rut especificado.";
+            }
         } else {
-            echo "Oops! Something went wrong. Please try again later.";
+            echo "Oops! Something went wrong with the select. Please try again later.";
         }
-        mysqli_stmt_close($stmt);
+        mysqli_stmt_close($stmt_select);
     }
 }
+
 mysqli_close($link);
-?>
-<?php
-require_once('../VIEW/header.php');
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
